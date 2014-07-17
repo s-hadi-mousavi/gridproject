@@ -1,0 +1,16 @@
+$iconSpritePath: image-path('glyphicons-halflings.png');
+$iconWhiteSpritePath: image-path('glyphicons-halflings-white.png');
+$btnPrimaryBackground: #FFD800;
+$textColor:#555555;
+
+@import "bootstrap";
+
+body { padding-top: 80px; padding-bottom:60px; }
+
+@import "bootstrap-responsive";
+.btn-danger-text {
+  color: #000;
+}#FF0000
+.btn-danger {
+  color: #FF0000;
+}

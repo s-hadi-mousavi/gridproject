@@ -1,0 +1,34 @@
+<%- model_class = Task.new.class -%>
+<h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th><%= sort_link @search, :id %></th>
+      <th><%= sort_link @search, :sprint_project_client_name, "Client"%></th>
+      <th><%= sort_link @search, :name %></th>
+      <th><%= sort_link @search, :description %></th>
+      <th><%= sort_link @search, :status %></th>
+      <th><%= sort_link @search, :created_at %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @tasks.each do |task| %>
+      <tr onclick="location.href='<%= sprint_task_path(task.sprint_id,task) %>'">
+        <td><%= task.id %></td>
+        <td><%= task.sprint.project.client.name %></td>
+        <td><%= task.name%></td>
+        <td><%= task.description %></td>
+        <% if task.status == nil %>
+        <td> Incompleta</td>
+        <%else%>
+        <td> Completa</td>
+        <%end%>
+        <td><%= task.created_at %></td>
+      </tr>
+    <% end %>
+  </tbody>
+
+<%=# link_to t('.new', :default => t("helpers.links.new")),
+    #        new_task_path,
+     #       :class => 'btn btn-primary' 
+     %>

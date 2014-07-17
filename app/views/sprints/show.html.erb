@@ -1,0 +1,68 @@
+<%- model_class = @sprint.class -%>
+<h1><%=t '.title', :default => model_class.model_name.human %></h1>
+
+<dl class="dl-horizontal">
+  <dt><strong><%= model_class.human_attribute_name(:project_id) %>:</strong></dt>
+  <dd><%= @sprint.project_id %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
+  <dd><%= @sprint.name %></dd>
+  <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
+  <dd><%= @sprint.description %></dd>
+</dl>
+
+<div class="form-actions">
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              client_project_path(@project.client,@project), :class => 'btn'  %>
+  <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_sprint_path(@project,@sprint), :class => 'btn' %>
+  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              project_sprint_path(@project,@sprint),
+              :method => 'delete',
+              :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
+              :class => 'btn btn-danger' %>
+</div>
+
+<%- model_class = Task.new.class -%>
+<h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:sprint_id) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:description) %></th>
+      <th><%= model_class.human_attribute_name(:created_at) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @sprint.tasks.each do |task| %>
+      <tr>
+        <td><%= task.id %></td>
+        <td><%= task.sprint_id %></td>
+        <td><%= link_to task.name, sprint_task_path(@sprint,task) %></td>
+        <td><%= task.description %></td>
+        <% if task.status == nil %>
+        <td> Incompleta</td>
+        <%else%>
+        <td> Completa</td>
+        <%end%>
+
+        <td><%=l task.created_at %></td>
+        <td>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_sprint_task_path(@sprint,task), :class => 'btn btn-mini' %>
+          <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      sprint_task_path(@sprint,task),
+                      :method => :delete,
+                      :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')),
+                      :class => 'btn btn-mini btn-danger' %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<%= link_to t('.new', :default => t("helpers.links.new")),
+            new_sprint_task_path(@sprint),
+            :class => 'btn btn-primary' %>

@@ -1,0 +1,15 @@
+<%= simple_form_for [@sprint,@task], :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.input :name %>
+  <%= f.input :description %>
+  <%= f.simple_fields_for :assignments do |assignment|%>
+    <%= render  'assignment_fields', :f => assignment%>
+    <%= link_to_add_association 'add assignment', f, :assignments%>
+  <%end%>
+
+  	<div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary'%>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                project_sprint_path(@sprint.project_id,@sprint), :class => 'btn'%>
+	</div>
+<%end%>
+
